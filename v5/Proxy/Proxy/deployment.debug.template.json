@@ -84,12 +84,9 @@
       "properties.desired": {
         "schemaVersion": "1.0",
         "routes": {
-          //"proxymoduleToconvertermodule": "FROM /messages/modules/proxymodule/outputs/outputP1 INTO BrokeredEndpoint(\"/modules/convertermodule/inputs/inputC1\")",
-          //"sensorToproxymodule": "FROM /messages/modules/SimulatedTemperatureSensor/outputs/temperatureOutput INTO BrokeredEndpoint(\"/modules/proxymodule/inputs/input1\")",
-          "convertermoduleToproxymodule": "FROM /messages/modules/convertermodule/outputs/outputC1 INTO BrokeredEndpoint(\"/modules/proxymodule/inputs/inputP1\")",
-          "proxymoduleToIoTHub": "FROM /messages/modules/proxymodule/outputs/outputP2 INTO $upstream",
-          "proxymoduleToconvertermodule": "FROM /messages/modules/proxymodule/outputs/outputP1 INTO BrokeredEndpoint(\"/modules/convertermodule/inputs/inputC1\")",
-          "convertermoduleToAll": "FROM /messages/modules/convertermodule/outputs/* INTO $upstream"
+          "convertermoduleToproxymodule": "FROM /messages/modules/convertermodule/outputs/outputC1 INTO BrokeredEndpoint(\"/modules/proxymodule/inputs/MessageFromConverter\")",
+          "proxymoduleToIoTHub": "FROM /messages/modules/proxymodule/outputs/MessageToHub INTO $upstream",
+          "proxymoduleToconvertermodule": "FROM /messages/modules/proxymodule/outputs/MessageToConverter INTO BrokeredEndpoint(\"/modules/convertermodule/inputs/MessageFromProxy\")"
         },
         "storeAndForwardConfiguration": {
           "timeToLiveSecs": 7200

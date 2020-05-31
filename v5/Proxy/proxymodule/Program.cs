@@ -1,20 +1,12 @@
 namespace proxymodule
 {
-    using System;
-    using System.IO;
-    using System.Runtime.InteropServices;
-    using System.Runtime.Loader;
-    using System.Security.Cryptography.X509Certificates;
-    using System.Text;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using Microsoft.Azure.Devices.Client;
     using Microsoft.Azure.Devices.Client.Transport.Mqtt;
-    using Microsoft.Extensions.Logging;
-    using Newtonsoft.Json;
-    using Newtonsoft.Json.Linq;
-   
-
+    using Microsoft.Azure.Devices.Client;
+    using System.Threading.Tasks;
+    using System.Runtime.Loader;
+    using System.Threading;
+    using System.Text;
+    using System;
     class Program
     {
         static int counter;
@@ -22,8 +14,8 @@ namespace proxymodule
         {
             Init().Wait();
             
-          // Wait until the app unloads or is cancelled
-          var cts = new CancellationTokenSource();
+            // Wait until the app unloads or is cancelled
+            var cts = new CancellationTokenSource();
             AssemblyLoadContext.Default.Unloading += (ctx) => cts.Cancel();
             Console.CancelKeyPress += (sender, cpe) => cts.Cancel();
             WhenCancelled(cts.Token).Wait();
@@ -54,20 +46,19 @@ namespace proxymodule
             Console.WriteLine("Proxy module client initialized.");
 
             // Register callback to be called when a direct method message is received by the module
-            await ioTHubModuleClient.SetMethodHandlerAsync("dm", PipeDirectMethod, ioTHubModuleClient);
+            await ioTHubModuleClient.SetMethodHandlerAsync("GetDeviceIdFromDirectMethod", DelegateDirectMethod, ioTHubModuleClient);
 
             // Register callback to be called when a message is received by the module
-            await ioTHubModuleClient.SetInputMessageHandlerAsync("inputP1", PipeMessage, ioTHubModuleClient);
+            await ioTHubModuleClient.SetInputMessageHandlerAsync("MessageFromConverter", DelegateMessageEvents, ioTHubModuleClient);
         }
 
         /// <summary>
-        /// This method is called whenever the module is sent a message from the EdgeHub. 
-        /// It just pipe the messages without any change.
-        /// It prints all the incoming messages.
+        /// This method is called whenever the Converter module is sent a message from the EdgeHub. 
+        /// It will sent all the incoming messages to Iot Hub.
         /// </summary>
-        static async Task<MessageResponse> PipeMessage(Message message, object userContext)
+        static async Task<MessageResponse> DelegateMessageEvents(Message message, object userContext)
         {
-            Console.WriteLine("PipeMessage initialized");
+            Console.WriteLine("DelegateMessageEvents initialized");
             int counterValue = Interlocked.Increment(ref counter);
 
             var moduleClient = userContext as ModuleClient;
@@ -88,7 +79,7 @@ namespace proxymodule
                     {
                         pipeMessage.Properties.Add(prop.Key, prop.Value);
                     }
-                    await moduleClient.SendEventAsync("outputP2", pipeMessage);
+                    await moduleClient.SendEventAsync("MessageToHub", pipeMessage);
 
                     Console.WriteLine("Received message sent");
                 }
@@ -96,7 +87,11 @@ namespace proxymodule
             return MessageResponse.Completed;
         }
 
-        static async Task<MethodResponse> PipeDirectMethod(MethodRequest methodRequest, object userContext)
+        /// <summary>
+        /// This method is called whenever the Cloud-end service sent a message using Direct method. 
+        /// It will pipe the incoming message to converter module.
+        /// </summary>
+        static async Task<MethodResponse> DelegateDirectMethod(MethodRequest methodRequest, object userContext)
         {
             Console.WriteLine($"Direct method invoked");
             
@@ -111,7 +106,7 @@ namespace proxymodule
                 {
                     Console.WriteLine($"Received Direct method: {methodRequest.Name} sent to Converter module");
                     ForegroundColorSuccess(methodRequest.DataAsJson);
-                    await moduleClient.SendEventAsync("outputP1", pipeMessage);
+                    await moduleClient.SendEventAsync("MessageToConverter", pipeMessage);
                 }
 
                 // Acknowlege the direct method call with a 200 success message
