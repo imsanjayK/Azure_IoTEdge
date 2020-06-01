@@ -1,12 +1,15 @@
 namespace proxymodule
 {
     using Microsoft.Azure.Devices.Client.Transport.Mqtt;
+    using Microsoft.Azure.Devices.Shared;
     using Microsoft.Azure.Devices.Client;
     using System.Threading.Tasks;
     using System.Runtime.Loader;
     using System.Threading;
+    using Newtonsoft.Json;
     using System.Text;
     using System;
+
     class Program
     {
         static int counter;
@@ -50,6 +53,13 @@ namespace proxymodule
 
             // Register callback to be called when a message is received by the module
             await ioTHubModuleClient.SetInputMessageHandlerAsync("MessageFromConverter", DelegateMessageEvents, ioTHubModuleClient);
+
+            // Read the Threshold value from the module twin's desired properties
+            var moduleTwin = await ioTHubModuleClient.GetTwinAsync();
+            //await OnDesiredPropertiesUpdate(moduleTwin.Properties.Desired, ioTHubModuleClient);
+
+            // Attach a callback for updates to the module twin's desired properties.
+            await ioTHubModuleClient.SetDesiredPropertyUpdateCallbackAsync(OnDesiredPropertiesUpdate, null);
         }
 
         /// <summary>
@@ -121,6 +131,34 @@ namespace proxymodule
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="desiredProperties"></param>
+        /// <param name="userContext"></param>
+        /// <returns></returns>
+        private static Task OnDesiredPropertiesUpdate(TwinCollection desiredProperties, object userContext)
+        {
+            try
+            {
+                Console.WriteLine("Desired property change:");
+                Console.WriteLine(JsonConvert.SerializeObject(desiredProperties));
+            }
+            catch (AggregateException ex)
+            {
+                foreach (Exception exception in ex.InnerExceptions)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine("Error when receiving desired property: {0}", exception);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine();
+                Console.WriteLine("Error when receiving desired property: {0}", ex.Message);
+            }
+            return Task.CompletedTask;
+        }
         private static void ForegroundColorSuccess(string message)
         {
             Console.ForegroundColor = ConsoleColor.Green;
