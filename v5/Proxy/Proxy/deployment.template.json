@@ -84,7 +84,7 @@
       "properties.desired": {
         "schemaVersion": "1.0",
         "routes": {
-          "convertermoduleToproxymodule": "FROM /messages/modules/convertermodule/outputs/outputC1 INTO BrokeredEndpoint(\"/modules/proxymodule/inputs/MessageFromConverter\")",
+          "convertermoduleToproxymodule": "FROM /messages/modules/convertermodule/outputs/MessageToProxy INTO BrokeredEndpoint(\"/modules/proxymodule/inputs/MessageFromConverter\")",
           "proxymoduleToIoTHub": "FROM /messages/modules/proxymodule/outputs/MessageToHub INTO $upstream",
           "proxymoduleToconvertermodule": "FROM /messages/modules/proxymodule/outputs/MessageToConverter INTO BrokeredEndpoint(\"/modules/convertermodule/inputs/MessageFromProxy\")"
         },

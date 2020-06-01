@@ -57,18 +57,17 @@ namespace Converter
             Console.WriteLine("Converter module client initialized.");
 
             // Register callback to be called when a message is received by the module
-            await ioTHubModuleClient.SetInputMessageHandlerAsync("inputC1", PipeMessage, ioTHubModuleClient);
+            await ioTHubModuleClient.SetInputMessageHandlerAsync("MessageFromProxy", DelegateMessageEvents, ioTHubModuleClient);
 
         }
 
         /// <summary>
-        /// This method is called whenever the module is sent a message from the EdgeHub. 
-        /// It just pipe the messages without any change.
-        /// It prints all the incoming messages.
+        /// This method is called whenever the proxy module is sent a message from the EdgeHub. 
+        /// It just filter out require device telemetry and pipe the messages to Proxy.
         /// </summary>
-        static async Task<MessageResponse> PipeMessage(Message message, object userContext)
+        static async Task<MessageResponse> DelegateMessageEvents(Message message, object userContext)
         {
-            Console.WriteLine("PipeMessage inittialized");
+            Console.WriteLine("DelegateMessageEvents inittialized");
             int counterValue = Interlocked.Increment(ref counter);
 
             if (!(userContext is ModuleClient moduleClient))
@@ -93,7 +92,7 @@ namespace Converter
                     Console.WriteLine(filterMessage);
                     var pipeMessage = new Message(Encoding.UTF8.GetBytes(filterMessage));
                     
-                    await moduleClient.SendEventAsync("outputC1", pipeMessage);
+                    await moduleClient.SendEventAsync("MessageToProxy", pipeMessage);
                     ForegroundColorSuccess($"Sending message: {counterValue}, Body: [{filterMessage}]");
                     break;
                 }
@@ -102,6 +101,9 @@ namespace Converter
             return MessageResponse.Completed;
         }
 
+        /// <summary>
+        /// This method is use to get Data. 
+        /// </summary>
         private static List<Device> JsonFileReader()
         {
             //using (var stream = new StreamReader(jsonFile))
