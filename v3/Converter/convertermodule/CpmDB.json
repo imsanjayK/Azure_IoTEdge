@@ -1,0 +1,37 @@
+[
+    {
+      "deviceid": "01",
+      "ambient": {
+        "temperature": "22",
+        "humidity": "23"
+      } 
+    },
+    {
+      "deviceid": "02",
+      "ambient": {
+        "temperature": "22",
+        "humidity": "23"
+      }
+    },
+    {
+      "deviceid": "03",
+      "ambient": {
+        "temperature": "22",
+        "humidity": "23"
+      }
+    },
+    {
+      "deviceid": "04",
+      "ambient": {
+        "temperature": "22",
+        "humidity": "23"
+      }
+    },
+    {
+      "deviceid": "05",
+      "ambient": {
+        "temperature": "22",
+        "humidity": "23"
+      }
+    }
+]
