@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "MqttNetConverter": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}

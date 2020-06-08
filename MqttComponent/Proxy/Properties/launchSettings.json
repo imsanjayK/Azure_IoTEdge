@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "MqttNetProxy": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}
