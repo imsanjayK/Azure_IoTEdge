@@ -30,13 +30,13 @@
           }
         },
         "modules": {
-          "proxymodule": {
+          "convertermodule": {
             "version": "1.0.0",
             "type": "docker",
             "status": "running",
             "restartPolicy": "always",
             "settings": {
-              "image": "abbcontainerregistry.azurecr.io/proxymodule:0.0.1-windows-amd64",
+              "image": "abbcontainerregistry.azurecr.io/convertermodule:0.0.1-windows-amd64",
               "createOptions": "{}"
             }
           }
@@ -46,7 +46,11 @@
     "$edgeHub": {
       "properties.desired": {
         "schemaVersion": "1.0",
-        "routes": {},
+        "routes": {
+          "convertermoduleToproxymodule": "FROM /messages/modules/convertermodule/outputs/MessageToProxy INTO BrokeredEndpoint(\"/modules/proxymodule/inputs/MessageFromConverter\")",
+          "proxymoduleToIoTHub": "FROM /messages/modules/proxymodule/outputs/MessageToHub INTO $upstream",
+          "proxymoduleToconvertermodule": "FROM /messages/modules/proxymodule/outputs/MessageToConverter INTO BrokeredEndpoint(\"/modules/convertermodule/inputs/MessageFromProxy\")"
+        },
         "storeAndForwardConfiguration": {
           "timeToLiveSecs": 7200
         }
