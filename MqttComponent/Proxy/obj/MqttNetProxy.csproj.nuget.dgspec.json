@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Workspace\\MqttComponent\\Proxy\\MqttNetProxy.csproj": {}
+    "C:\\Workspace\\Azure_IoTEdge\\MqttComponent\\Proxy\\MqttNetProxy.csproj": {}
   },
   "projects": {
-    "C:\\Workspace\\MqttComponent\\Proxy\\MqttNetProxy.csproj": {
+    "C:\\Workspace\\Azure_IoTEdge\\MqttComponent\\Proxy\\MqttNetProxy.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Workspace\\MqttComponent\\Proxy\\MqttNetProxy.csproj",
+        "projectUniqueName": "C:\\Workspace\\Azure_IoTEdge\\MqttComponent\\Proxy\\MqttNetProxy.csproj",
         "projectName": "MqttNetProxy",
-        "projectPath": "C:\\Workspace\\MqttComponent\\Proxy\\MqttNetProxy.csproj",
+        "projectPath": "C:\\Workspace\\Azure_IoTEdge\\MqttComponent\\Proxy\\MqttNetProxy.csproj",
         "packagesPath": "C:\\Users\\azureuser\\.nuget\\packages\\",
-        "outputPath": "C:\\Workspace\\MqttComponent\\Proxy\\obj\\",
+        "outputPath": "C:\\Workspace\\Azure_IoTEdge\\MqttComponent\\Proxy\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\azureuser\\AppData\\Roaming\\NuGet\\NuGet.Config",

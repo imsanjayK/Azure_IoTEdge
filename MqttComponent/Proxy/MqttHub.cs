@@ -32,10 +32,10 @@
 
             //configure options
             var optionsBuilder = new MqttClientOptionsBuilder()
-                .WithClientId(clientId)
-                .WithTcpServer("localhost",1883)
+                .WithClientId("proxy")
+                .WithTcpServer("localhost", 1883)
                 .WithCredentials("sanjay", "%Welcome@123%")
-                .WithCleanSession();
+                .WithCleanSession(false);
 
             var _options = mqttSecure ? optionsBuilder.WithTls().Build() : optionsBuilder.Build();
             var managedOptions = new ManagedMqttClientOptionsBuilder()

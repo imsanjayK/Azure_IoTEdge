@@ -15,9 +15,12 @@
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Starting Converter....");
+            Console.WriteLine("Starting Converter module");
             try
             {
+                CPMBaseData obj = new CPMBaseData(); 
+                 string json = "[{\"model\": \"abb.ability.metadata\",\"typeId\": \"abb.ability.PM\",\"version\": \"1.0.0\",\"variables\": {\"DetectorEmptyPipe2.value\": {\"dataType\": \"string\",\"dataTypeExt\": \"uint64\"}},\"properties\": {\"UserSystemSpanRatio.value\": {\"dataType\": \"string\",\"dataTypeExt\": \"float64\"},\"HardwareVersion\": {\"dataType\": \"string\"},\"sensorElectrodeMaterials\": {\"dataType\": \"number\",\"dataTypeExt\": \"int64\"},\"DetectorEmptyPipe2.unitsCode\": {\"dataType\": \"number\",\"dataTypeExt\": \"int64\"},\"SensorName\": {\"dataType\": \"String\"}}}]";
+                obj.EquipmentDetails();
                 MqttHub mqtt = new MqttHub();
                 var _client = mqtt.Client;
 
@@ -36,25 +39,32 @@
                 });
                 _client.UseApplicationMessageReceivedHandler(e =>
                 {
-                    Console.WriteLine("### RECEIVED APPLICATION MESSAGE ###");
-                    Console.WriteLine($"+ Topic = {e.ApplicationMessage.Topic}");
-                    Console.WriteLine($"+ Payload = {Encoding.UTF8.GetString(e.ApplicationMessage.Payload)}");
-                    Console.WriteLine($"+ QoS = {e.ApplicationMessage.QualityOfServiceLevel}");
-                    Console.WriteLine($"+ Retain = {e.ApplicationMessage.Retain}");
+                    if (e.ApplicationMessage.Payload != null)
+                    {
+                        Console.WriteLine("### RECEIVED APPLICATION MESSAGE ###");
+                        Console.WriteLine($"+ Topic = {e.ApplicationMessage.Topic}");
+                        Console.WriteLine($"+ Payload = {Encoding.UTF8.GetString(e.ApplicationMessage.Payload)}");
+                        Console.WriteLine($"+ QoS = {e.ApplicationMessage.QualityOfServiceLevel}");
+                        Console.WriteLine($"+ Retain = {e.ApplicationMessage.Retain}");
 
-                    var payloadIn = Encoding.UTF8.GetString(e.ApplicationMessage.Payload);
-                    payloadIn = payloadIn.Substring(payloadIn.IndexOf('{'));
-                       
-                    var desireDeviceId = JsonConvert.DeserializeObject<JObject>(payloadIn)["deviceid"]
-                                                    .ToString();
+                        var payloadIn = Encoding.UTF8.GetString(e.ApplicationMessage.Payload);
+                        payloadIn = payloadIn.Substring(payloadIn.IndexOf('{'));
 
-                    Console.WriteLine($"Received Device id: {desireDeviceId}");
+                        var desireDeviceId = JsonConvert.DeserializeObject<JObject>(payloadIn)["deviceid"]
+                                                        .ToString();
 
-                    var desireDeviceInfo = GetData(desireDeviceId);
-                    var payloadOut = JsonConvert.SerializeObject(desireDeviceInfo);
+                        Console.WriteLine($"Received Device id: {desireDeviceId}");
 
-                    var r = MqttHub.PublishAsync("MessageToProxy", payloadOut, false).Result;
+                        var desireDeviceInfo = GetData(desireDeviceId);
+                        var payloadOut = JsonConvert.SerializeObject(desireDeviceInfo);
 
+                        var r = MqttHub.PublishAsync("MessageToProxy", payloadOut).Result;
+                        r = MqttHub.PublishAsync("MessageToProxy", "").Result;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Payload empty");
+                    }
                 });
 
                 Console.WriteLine("Press key to exit");

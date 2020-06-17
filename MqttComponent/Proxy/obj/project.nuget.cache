@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "zsxHrRkLAvXFL50cg06eXTs02tTMlv0qQQT0EYe3yUKoNtq4+8/4TYR4/vSrxu4I+dZwy7gHP3t/aTX3SqdfVg==",
+  "dgSpecHash": "9SVpQXozfcwPIv1wI7orljnAj+Xc0x+Q15a+wcJhnWQ9r/iuW7zAmLS5cRAMT3NuV1yo3CgwcuqkjnnD91tMOA==",
   "success": true,
-  "projectFilePath": "C:\\Workspace\\MqttComponent\\Proxy\\MqttNetProxy.csproj",
+  "projectFilePath": "C:\\Workspace\\Azure_IoTEdge\\MqttComponent\\Proxy\\MqttNetProxy.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\azureuser\\.nuget\\packages\\dotnetty.buffers\\0.6.0\\dotnetty.buffers.0.6.0.nupkg.sha512",
     "C:\\Users\\azureuser\\.nuget\\packages\\dotnetty.codecs\\0.6.0\\dotnetty.codecs.0.6.0.nupkg.sha512",
