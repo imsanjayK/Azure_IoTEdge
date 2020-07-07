@@ -9,6 +9,9 @@
     using MQTTnet.Client;
     using MQTTnet;
     using System;
+    using System.Security.Authentication;
+    using System.Security.Cryptography.X509Certificates;
+    using System.Collections.Generic;
 
     class MqttHub
     {
@@ -28,16 +31,27 @@
             string mqttUser = "";
             string mqttPassword = "";
             int mqttPort = 1883;
-            bool mqttSecure = false;
+            bool mqttSecure = true;
 
             //configure options
             var optionsBuilder = new MqttClientOptionsBuilder()
                 .WithClientId("proxy")
-                .WithTcpServer("localhost", 1883)
+                .WithTcpServer("localhost", 8883)
                 .WithCredentials("sanjay", "%Welcome@123%")
                 .WithCleanSession(false);
 
-            var _options = mqttSecure ? optionsBuilder.WithTls().Build() : optionsBuilder.Build();
+            var _options = mqttSecure ? optionsBuilder.WithTls(new MqttClientOptionsBuilderTlsParameters()
+            {
+                AllowUntrustedCertificates = true,
+                UseTls = true,
+                SslProtocol = SslProtocols.Tls11,
+                Certificates = new List<X509Certificate>(){
+                                  new X509Certificate2(@"C:\Certs\client.crt")
+                },
+                CertificateValidationHandler = delegate { return true; },
+                IgnoreCertificateChainErrors = false,
+                IgnoreCertificateRevocationErrors = false
+            }).Build() : optionsBuilder.Build();
             var managedOptions = new ManagedMqttClientOptionsBuilder()
                 .WithAutoReconnectDelay(TimeSpan.FromSeconds(5))
                 .WithClientOptions(_options)

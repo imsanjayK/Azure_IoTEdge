@@ -1,0 +1,16 @@
+C:\Workspace\Azure_IoTEdge\Broker\bin\Release\netcoreapp3.0\MqttNetBroker.exe
+C:\Workspace\Azure_IoTEdge\Broker\bin\Release\netcoreapp3.0\MqttNetBroker.deps.json
+C:\Workspace\Azure_IoTEdge\Broker\bin\Release\netcoreapp3.0\MqttNetBroker.runtimeconfig.json
+C:\Workspace\Azure_IoTEdge\Broker\bin\Release\netcoreapp3.0\MqttNetBroker.runtimeconfig.dev.json
+C:\Workspace\Azure_IoTEdge\Broker\bin\Release\netcoreapp3.0\MqttNetBroker.dll
+C:\Workspace\Azure_IoTEdge\Broker\bin\Release\netcoreapp3.0\MqttNetBroker.pdb
+C:\Workspace\Azure_IoTEdge\Broker\bin\Release\netcoreapp3.0\MQTTnet.dll
+C:\Workspace\Azure_IoTEdge\Broker\bin\Release\netcoreapp3.0\MQTTnet.Extensions.ManagedClient.dll
+C:\Workspace\Azure_IoTEdge\Broker\obj\Release\netcoreapp3.0\MqttNetBroker.csprojAssemblyReference.cache
+C:\Workspace\Azure_IoTEdge\Broker\obj\Release\netcoreapp3.0\MqttNetBroker.AssemblyInfoInputs.cache
+C:\Workspace\Azure_IoTEdge\Broker\obj\Release\netcoreapp3.0\MqttNetBroker.AssemblyInfo.cs
+C:\Workspace\Azure_IoTEdge\Broker\obj\Release\netcoreapp3.0\MqttNetBroker.csproj.CoreCompileInputs.cache
+C:\Workspace\Azure_IoTEdge\Broker\obj\Release\netcoreapp3.0\MqttNetBroker.csproj.CopyComplete
+C:\Workspace\Azure_IoTEdge\Broker\obj\Release\netcoreapp3.0\MqttNetBroker.dll
+C:\Workspace\Azure_IoTEdge\Broker\obj\Release\netcoreapp3.0\MqttNetBroker.pdb
+C:\Workspace\Azure_IoTEdge\Broker\obj\Release\netcoreapp3.0\MqttNetBroker.genruntimeconfig.cache

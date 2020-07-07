@@ -96,3 +96,4 @@ C:\Workspace\Azure_IoTEdge\MqttComponent\Proxy\obj\Debug\netcoreapp3.0\MqttNetPr
 C:\Workspace\Azure_IoTEdge\MqttComponent\Proxy\obj\Debug\netcoreapp3.0\MqttNetProxy.dll
 C:\Workspace\Azure_IoTEdge\MqttComponent\Proxy\obj\Debug\netcoreapp3.0\MqttNetProxy.pdb
 C:\Workspace\Azure_IoTEdge\MqttComponent\Proxy\obj\Debug\netcoreapp3.0\MqttNetProxy.genruntimeconfig.cache
+C:\Workspace\Azure_IoTEdge\MqttComponent\Proxy\obj\Debug\netcoreapp3.0\MqttNetProxy.csprojAssemblyReference.cache

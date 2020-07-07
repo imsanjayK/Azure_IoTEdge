@@ -7,6 +7,10 @@
     using System.Threading;
     using MQTTnet;
     using System;
+    using System.Collections.Generic;
+    using System.Security.Cryptography.X509Certificates;
+    using System.Net;
+    using System.Security.Authentication;
 
     class MqttHub
     {
@@ -21,25 +25,47 @@
         }
         static MqttHub()
         {
+            ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, errors) =>
+            {
+                return true;
+            };
             string clientId = Guid.NewGuid().ToString();
             string mqttURI = "localhost";
             string mqttUser = "";
             string mqttPassword = "";
             int mqttPort = 1883;
-            bool mqttSecure = false;
+            bool mqttSecure = true;
 
             //configure options
             var optionsBuilder = new MqttClientOptionsBuilder()
                 .WithClientId("converter")
-                .WithTcpServer("localhost", 1883)
+                .WithTcpServer("localhost", 8883)
                 .WithCredentials("sanjay", "%Welcome@123%")
                 .WithCleanSession(false);
+                //.WithProtocolVersion(MQTTnet.Formatter.MqttProtocolVersion.Unknown);
 
-            var _options = mqttSecure ? optionsBuilder.WithTls().Build() : optionsBuilder.Build();
+
+
+            var _options = mqttSecure ? optionsBuilder.WithTls(new MqttClientOptionsBuilderTlsParameters()
+            {
+                AllowUntrustedCertificates = true,
+                UseTls = true,
+                SslProtocol = SslProtocols.Tls11,
+                Certificates = new List<X509Certificate>(){
+                                  new X509Certificate2(@"C:\Certs\client.crt")
+                },
+                CertificateValidationHandler = delegate { return true; },
+                IgnoreCertificateChainErrors = false,
+                IgnoreCertificateRevocationErrors = false
+            }).Build() : optionsBuilder.Build();
+
+
+
             var managedOptions = new ManagedMqttClientOptionsBuilder()
                 .WithAutoReconnectDelay(TimeSpan.FromSeconds(5))
                 .WithClientOptions(_options)
                 .Build();
+
             _client = new MqttFactory().CreateManagedMqttClient();
 
             //actually connect

@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "NetworkBridge": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}

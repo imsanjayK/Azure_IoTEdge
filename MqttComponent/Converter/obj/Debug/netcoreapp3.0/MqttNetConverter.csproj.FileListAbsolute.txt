@@ -48,3 +48,4 @@ C:\Workspace\Azure_IoTEdge\MqttComponent\Converter\obj\Debug\netcoreapp3.0\MqttN
 C:\Workspace\Azure_IoTEdge\MqttComponent\Converter\obj\Debug\netcoreapp3.0\MqttNetConverter.dll
 C:\Workspace\Azure_IoTEdge\MqttComponent\Converter\obj\Debug\netcoreapp3.0\MqttNetConverter.pdb
 C:\Workspace\Azure_IoTEdge\MqttComponent\Converter\obj\Debug\netcoreapp3.0\MqttNetConverter.genruntimeconfig.cache
+C:\Workspace\Azure_IoTEdge\MqttComponent\Converter\obj\Debug\netcoreapp3.0\MqttNetConverter.csprojAssemblyReference.cache
